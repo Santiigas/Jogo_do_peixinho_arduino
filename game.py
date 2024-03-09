@@ -4,6 +4,9 @@ from sys import exit
 import os
 from random import randrange
 
+pygame.init()
+pygame.mixer.init()
+
 #Pegando os aquivos do jogo (para que funcione em qualquer PC)
 diretorio_principal = os.path.dirname(__file__)
 diretorio_imagens = os.path.join(diretorio_principal, 'imagens')
@@ -43,12 +46,37 @@ class Dino(pygame.sprite.Sprite):
         self.index_lista = 0
         self.image = self.imagens_dinossauro[self.index_lista]
         self.rect = self.image.get_rect()
-
         #posicão dinossauro na tela de acordo com o tamando da mesma
+        self.pos_y_inicial = ALTURA - 64 - 96//2
         self.rect.center = (100, ALTURA - 64)
+        self.pulo = False
+
+    def pular(self):
+        self.pulo = True
+
 
     #velocidade da mudanca de quadros
     def update(self):
+
+        #pulo do player
+        if self.pulo == True:
+
+            #quando chegar em determina posicão, ele para de subir
+            if self.rect.y <= 500: #==== PAINEL DE CONTROLE =======
+                self.pulo = False
+
+            #toda vez que alterar o espaco, a posicão Y do dino ira diminuir (pular)
+            self.rect.y -= 20  #==== PAINEL DE CONTROLE =======
+        else:
+
+            #se o player estiver na altuta maxima, ele vai descer (se nao estiver encostado no chão)
+            if self.rect.y < self.pos_y_inicial:
+                self.rect.y += 20 #==== PAINEL DE CONTROLE =======
+
+            #se o dinossauro ja estiver encostado no chão
+            else:
+                self.rect.y = self.pos_y_inicial
+
         if self.index_lista > 2:
             self.index_lista = 0
         self.index_lista += 0.25
@@ -118,6 +146,7 @@ for i in range(LARGURA*2//64):
 
 
 relogio = pygame.time.Clock()
+#parte de eventos do jogo
 while True:
     relogio.tick(30)
     tela.fill(BRANCO)
@@ -125,6 +154,18 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             exit()
+
+        #evento do pulo -- PARTE DE FOCO 000
+        if event.type == KEYDOWN:
+            #se a tecla apertada for igual a "espaço"
+            if event.key == K_SPACE:
+                #se o player ainda estiver no ar
+                if dino.rect.y != dino.pos_y_inicial:
+                    pass
+                else:
+                #chamando metodo de pular
+                    dino.pular()
+
     todas_as_sprites.draw(tela)
     todas_as_sprites.update()
 
