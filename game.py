@@ -46,6 +46,7 @@ class Dino(pygame.sprite.Sprite):
         self.index_lista = 0
         self.image = self.imagens_dinossauro[self.index_lista]
         self.rect = self.image.get_rect()
+        self.mask = pygame.mask.from_surface(self.image)
         #posicão dinossauro na tela de acordo com o tamando da mesma
         self.pos_y_inicial = ALTURA - 64 - 96//2
         self.rect.center = (100, ALTURA - 64)
@@ -126,6 +127,20 @@ class Chao(pygame.sprite.Sprite):
         self.rect.x -= 10 
 
 
+#configuracão de inimigos
+class Inimigo(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = sprite_sheet.subsurface((5*32, 0), (32, 32))
+        self.image = pygame.transform.scale(self.image, (32*2, 32*2))
+        self.rect =  self.image.get_rect()
+        self.mask = pygame.mask.from_surface(self.image)
+        self.rect.center = (LARGURA, ALTURA - 64)
+
+    def update(self):
+        if self.rect.topright[0] < 0:          #se ultrapassar a borda esquerda da tela:
+            self.rect.x = LARGURA       
+        self.rect.x -= 10                      #velocidade de movimentacão da nuven
 
 
 todas_as_sprites = pygame.sprite.Group()
@@ -143,6 +158,14 @@ for i in range(4):
 for i in range(LARGURA*2//64):
     chao = Chao(i)
     todas_as_sprites.add(chao)
+
+#intanciando o inimigo na tela
+inimigo = Inimigo()
+todas_as_sprites.add(inimigo)
+
+
+grupo_obstaculos = pygame.sprite.Group()
+grupo_obstaculos.add(inimigo)
 
 
 relogio = pygame.time.Clock()
@@ -166,7 +189,16 @@ while True:
                 #chamando metodo de pular
                     dino.pular()
 
-    todas_as_sprites.draw(tela)
-    todas_as_sprites.update()
 
+    #verificando de houve colisão
+    colisoes = pygame.sprite.spritecollide(dino, grupo_obstaculos, False, pygame.sprite.collide_mask)
+
+    todas_as_sprites.draw(tela)
+
+    #se colidir o game vai parar
+    if colisoes:
+        pass
+    else:
+        todas_as_sprites.update()
+        
     pygame.display.flip()
