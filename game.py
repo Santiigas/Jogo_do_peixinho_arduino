@@ -3,6 +3,7 @@ from pygame.locals import *
 from sys import exit
 import os
 from random import randrange
+import painel_de_controle
 
 pygame.init()
 pygame.mixer.init()
@@ -67,12 +68,12 @@ class Dino(pygame.sprite.Sprite):
                 self.pulo = False
 
             #toda vez que alterar o espaco, a posicão Y do dino ira diminuir (pular)
-            self.rect.y -= 20  #==== PAINEL DE CONTROLE =======
+            self.rect.y -= 20  #==== PAINEL DE CONTROLE ======= GRAVIDADE PRA CIMA (PRA CIMA)
         else:
 
             #se o player estiver na altuta maxima, ele vai descer (se nao estiver encostado no chão)
             if self.rect.y < self.pos_y_inicial:
-                self.rect.y += 20 #==== PAINEL DE CONTROLE =======
+                self.rect.y += 20 #==== PAINEL DE CONTROLE ======= GRAVIDADE (PRA BAIXO)
 
             #se o dinossauro ja estiver encostado no chão
             else:
