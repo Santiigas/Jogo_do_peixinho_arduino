@@ -4,11 +4,12 @@ from random import randint
 gravidade = randint(5, 15)
 velocidade_do_salto = randint(20, 50)
 altura_maxima = randint(500, 550)
+pular = True
 
-def painel_de_controle(gravidade, velocidade_do_salto, altura_maxima):
+def painel_de_controle(gravidade, velocidade_do_salto, altura_maxima, pular):
     #Variaveis fixas (definidas no inicio)
     velocidade_game = 10
     tempo_game = 10
 
-    return gravidade, velocidade_do_salto, altura_maxima
+    return gravidade, velocidade_do_salto, altura_maxima, pular
 

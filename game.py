@@ -64,16 +64,16 @@ class Dino(pygame.sprite.Sprite):
         if self.pulo == True:
 
             #quando chegar em determina posicão, ele para de subir
-            if self.rect.y <= 500: #==== PAINEL DE CONTROLE =======
+            if self.rect.y <= painel_de_controle.altura_maxima: #==== PAINEL DE CONTROLE ======= (padrão = 500)
                 self.pulo = False
 
             #toda vez que alterar o espaco, a posicão Y do dino ira diminuir (pular)
-            self.rect.y -= 20  #==== PAINEL DE CONTROLE ======= GRAVIDADE PRA CIMA (PRA CIMA)
+            self.rect.y -= painel_de_controle.velocidade_do_salto #==== PAINEL DE CONTROLE ======= GRAVIDADE PRA CIMA (PRA CIMA) (padrão = 20)
         else:
 
             #se o player estiver na altuta maxima, ele vai descer (se nao estiver encostado no chão)
             if self.rect.y < self.pos_y_inicial:
-                self.rect.y += 20 #==== PAINEL DE CONTROLE ======= GRAVIDADE (PRA BAIXO)
+                self.rect.y += painel_de_controle.gravidade #==== PAINEL DE CONTROLE ======= GRAVIDADE (PRA BAIXO) | (padrão = 20)
 
             #se o dinossauro ja estiver encostado no chão
             else:
@@ -180,9 +180,11 @@ while True:
             exit()
 
         #evento do pulo -- PARTE DE FOCO 000
-        if event.type == KEYDOWN:
+        if event.type == KEYDOWN: 
             #se a tecla apertada for igual a "espaço"
-            if event.key == K_SPACE:
+
+            if event.key == K_SPACE: #TROCAR POR UMA VARIAVEL QUE SEJA TRUE OU FALSE
+
                 #se o player ainda estiver no ar
                 if dino.rect.y != dino.pos_y_inicial:
                     pass
