@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 import string
+from game import game_do_peixinho
 
 lista_comorbidades = ['Comorbidade1', 'Comorbidade2', 'Comorbidade3']
 lista_tempos = ['1:00','1:30','2:30', '4:00', '5:00']
@@ -8,6 +9,20 @@ lista_dificuldade = ['Facil', 'Medio', 'Dificil']
 lista_forca = ['100', '200', '300']
 portas_arduino = ['COM1','COM2', 'COM3','COM4','COM5','COM6']
 
+
+def pegarDadosParaJogo():
+    nome = entrada_nome_paciente.get()
+    idade = int(entrada_idade_paciente.get())
+    comorbidade = entrada_comorbidade_paciente.get()
+
+    tempo = str(entrada_tempo_do_jogo.get())
+    dificuldade = str(entrada_dificuldade_do_jogo.get())
+    forca = int(entrada_forca_do_jogo.get())
+
+    porta = porta_arduino.get()
+    frequencia = int(frequencia_arduino.get())
+
+    return nome, idade, comorbidade, tempo, dificuldade, forca, porta, frequencia
 
 #criação da janela
 janela = Tk()
@@ -52,8 +67,12 @@ frequencia_arduino = ttk.Combobox(janela, justify=LEFT)
 frequencia_arduino.place(width=103, height=25, x=210, y=562)
 
 #Botão
-botao1 = Button(janela, text="Jogar", relief='raised', command=lambda:PegarDadosDisciplina(1))
-botao1.place(width=100, height=33, x=900, y=562)
+
+botao1 = Button(janela, text="Salvar", relief='raised', command=lambda:pegarDadosParaJogo())
+botao1.place(width=100, height=33, x=780, y=562)
+
+botao2 = Button(janela, text="Jogar", relief='raised', command=lambda:game_do_peixinho())
+botao2.place(width=100, height=33, x=900, y=562)
 
 
 
