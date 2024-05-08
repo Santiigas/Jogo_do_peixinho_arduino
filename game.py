@@ -3,9 +3,24 @@ from pygame.locals import *
 from sys import exit
 import os
 from random import randrange
+import serial
 
 
-def game_do_peixinho():
+def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
+
+    arduino = serial.Serial('COM6', 9600)
+
+    while True:
+        linha = arduino.readline().decode().strip()
+        valor = int(linha) 
+        pulo = False
+        
+        if valor >= 200:  
+            print(valor)
+            pulo = True
+        if tempo == 200:
+            break
+
 
     pygame.init()
     pygame.mixer.init()
@@ -207,4 +222,3 @@ def game_do_peixinho():
             todas_as_sprites.update()
             
         pygame.display.flip()
-
