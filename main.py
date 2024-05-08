@@ -22,7 +22,7 @@ def pegarDadosParaJogo():
     porta = porta_arduino.get()
     frequencia = int(frequencia_arduino.get())
 
-    return nome, idade, comorbidade, tempo, dificuldade, forca, porta, frequencia
+
 
 #criação da janela
 janela = Tk()

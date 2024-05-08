@@ -4,6 +4,7 @@ from sys import exit
 import os
 from random import randrange
 
+
 def game_do_peixinho():
 
     pygame.init()
@@ -206,3 +207,4 @@ def game_do_peixinho():
             todas_as_sprites.update()
             
         pygame.display.flip()
+
