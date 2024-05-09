@@ -14,7 +14,7 @@ def enviar_dados():
     idade = int(entrada_idade_paciente.get())
     comorbidade = str(entrada_comorbidade_paciente.get())
 
-    tempo = str(entrada_tempo_do_jogo.get())
+    tempo = int(entrada_tempo_do_jogo.get())
     dificuldade = str(entrada_dificuldade_do_jogo.get())
     forca = int(entrada_forca_do_jogo.get())
 
@@ -62,12 +62,12 @@ entrada_comorbidade_paciente.insert(0, entrada_comorbidade_paciente_padrao)
 #Entradas -- Jogo
 entrada_tempo_do_jogo = ttk.Combobox(janela, justify=LEFT, values=lista_tempos)
 entrada_tempo_do_jogo .place(width=180, height=25, x=155, y=327)
-tempo_de_jogo_padrao = '5:00'
+tempo_de_jogo_padrao = '5'
 entrada_tempo_do_jogo.insert(0, tempo_de_jogo_padrao)
 
 entrada_dificuldade_do_jogo = ttk.Combobox(janela, justify=LEFT, values=lista_dificuldade)
 entrada_dificuldade_do_jogo .place(width=122, height=25, x=212, y=369)
-dificuldade_do_jogo_padrao = 'Facil'
+dificuldade_do_jogo_padrao = 'Fácil'
 entrada_dificuldade_do_jogo.insert(0, dificuldade_do_jogo_padrao)
 
 entrada_forca_do_jogo = ttk.Combobox(janela, justify=LEFT, values=lista_forca)

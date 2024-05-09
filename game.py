@@ -4,17 +4,29 @@ from sys import exit
 import os
 from random import randrange
 import serial
+from cronometro import cronometro
 
 
 def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
 
     def dificuldade_do_jogo(dificuldade):
         if dificuldade == 'Fácil': 
-            return 5   
+            return 5;  
         elif dificuldade == 'Médio':
             return 10
         elif dificuldade == 'Difícil':
             return 15
+        else:
+            raise ValueError("Dificuldade inválida: deve ser 'Fácil', 'Médio' ou 'Difícil'")
+
+    ##Tempo
+    def verifica_o_tempo_do_jogo(minutos):
+        fim_do_jogo = cronometro(minutos)
+
+        if fim_do_jogo:
+            return True
+
+    verifica_o_tempo_do_jogo(tempo)
 
     '''
     arduino = serial.Serial(porta, frequencia)
@@ -133,7 +145,7 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
             if self.rect.topright[0] < 0:          #se ultrapassar a borda esquerda da tela:
                 self.rect.x = LARGURA
                 self.rect.y = randrange(50, 200, 50)              
-            self.rect.x -= 10                      #velocidade de movimentacão da nuven
+            self.rect.x -= dificuldade_do_jogo(dificuldade)
 
 
     #configuracão de chão
@@ -151,7 +163,7 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
         def update(self):
             if self.rect.topright[0] < 0:      
                 self.rect.x = LARGURA  
-            self.rect.x = dificuldade_do_jogo(dificuldade)
+            self.rect.x -= dificuldade_do_jogo(dificuldade)  
 
 
     #configuracão de inimigos
@@ -167,7 +179,7 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
         def update(self):
             if self.rect.topright[0] < 0:          #se ultrapassar a borda esquerda da tela:
                 self.rect.x = LARGURA       
-            self.rect.x = dificuldade_do_jogo(dificuldade)
+            self.rect.x -= dificuldade_do_jogo(dificuldade)
 
 
     todas_as_sprites = pygame.sprite.Group()
