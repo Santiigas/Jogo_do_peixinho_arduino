@@ -4,7 +4,6 @@ from sys import exit
 import os
 from random import randrange
 import serial
-from cronometro import cronometro
 
 
 def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
@@ -18,15 +17,6 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
             return 15
         else:
             raise ValueError("Dificuldade inválida: deve ser 'Fácil', 'Médio' ou 'Difícil'")
-
-    ##Tempo
-    def verifica_o_tempo_do_jogo(minutos):
-        fim_do_jogo = cronometro(minutos)
-
-        if fim_do_jogo:
-            return True
-
-    verifica_o_tempo_do_jogo(tempo)
 
     '''
     arduino = serial.Serial(porta, frequencia)
