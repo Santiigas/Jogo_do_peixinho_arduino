@@ -8,19 +8,28 @@ import serial
 
 def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
 
-    arduino = serial.Serial('COM6', 9600)
+    def dificuldade_do_jogo(dificuldade):
+        if dificuldade == 'Fácil': 
+            return 5   
+        elif dificuldade == 'Médio':
+            return 10
+        elif dificuldade == 'Difícil':
+            return 15
+
+    '''
+    arduino = serial.Serial(porta, frequencia)
 
     while True:
         linha = arduino.readline().decode().strip()
-        valor = int(linha) 
-        pulo = False
+        valor_altura_maxima = int(linha) 
+        esta_pulando = False
         
-        if valor >= 200:  
-            print(valor)
-            pulo = True
+        if valor_altura_maxima >= forca:  
+            print(valor_altura_maxima )
+            esta_pulando = True
         if tempo == 200:
             break
-
+    '''
 
     pygame.init()
     pygame.mixer.init()
@@ -71,14 +80,14 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
             self.pulo = False
 
         def pular(self):
-            self.pulo = True
+            self.pulo = True   #Original = True | esta_pulando
 
 
         #velocidade da mudanca de quadros
         def update(self):
 
             #pulo do player
-            if self.pulo == True:
+            if self.pulo == True: #Original = True | esta_pulando
 
                 #quando chegar em determina posicão, ele para de subir
                 if self.rect.y <= 470: #==== PAINEL DE CONTROLE ======= (padrão = 500)
@@ -138,11 +147,11 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
             self.rect.y = ALTURA - 64
             self.rect.x = pos_x * 64
         
-        #movimentacão do ceu
+        #movimentacão do chão
         def update(self):
             if self.rect.topright[0] < 0:      
-                self.rect.x = LARGURA      
-            self.rect.x -= 10 
+                self.rect.x = LARGURA  
+            self.rect.x = dificuldade_do_jogo(dificuldade)
 
 
     #configuracão de inimigos
@@ -158,7 +167,7 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
         def update(self):
             if self.rect.topright[0] < 0:          #se ultrapassar a borda esquerda da tela:
                 self.rect.x = LARGURA       
-            self.rect.x -= 10                      #velocidade de movimentacão da nuven
+            self.rect.x = dificuldade_do_jogo(dificuldade)
 
 
     todas_as_sprites = pygame.sprite.Group()

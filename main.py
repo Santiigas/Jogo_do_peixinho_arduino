@@ -1,11 +1,10 @@
 from tkinter import *
 from tkinter import ttk
-import string
 from game import game_do_peixinho
 
 lista_comorbidades = ['Comorbidade1', 'Comorbidade2', 'Comorbidade3', 'Comorbidade4']
 lista_tempos = ['1:00','1:30','2:30', '4:00', '5:00']
-lista_dificuldade = ['Facil', 'Medio', 'Dificil']
+lista_dificuldade = ['Fácil', 'Médio', 'Difícil']
 lista_forca = ['50', '100', '150', '200', '250', '300']
 portas_arduino = ['COM1','COM2', 'COM3','COM4','COM5','COM6']
 
