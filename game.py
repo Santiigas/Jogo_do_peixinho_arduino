@@ -23,6 +23,7 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
                 linha = arduino.readline().decode().strip()
                 valor_altura_maxima = int(linha)
                 if valor_altura_maxima >= forca and not esta_pulando:
+                    print(valor_altura_maxima)
                     callback(valor_altura_maxima)
         except Exception as e:
             print("Erro na comunicação serial:", e)
