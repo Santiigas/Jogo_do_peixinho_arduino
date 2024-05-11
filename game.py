@@ -6,35 +6,6 @@ from random import randrange
 import serial
 import threading
 
-'''
-# Função para lidar com a comunicação serial
-def serial_communication(porta, frequencia, callback):
-    try:
-        arduino = serial.Serial(porta, frequencia)
-        while True:
-            linha = arduino.readline().decode().strip()
-            valor_altura_maxima = int(linha)
-            if valor_altura_maxima >= 200 and not esta_pulando:
-                callback(valor_altura_maxima)
-    except Exception as e:
-        print("Erro na comunicação serial:", e)
-
-# Função de callback para lidar com os dados recebidos
-def handle_jump(valor_altura_maxima):
-    global esta_pulando
-    print(valor_altura_maxima) #retornar para o game
-    esta_pulando = True #retornar para o game
-
-# Inicialização
-porta = '/dev/ttyACM0'  # Substitua pela porta correta
-frequencia = 9600
-esta_pulando = False
-
-# Iniciando a comunicação serial em uma thread separada
-thread = threading.Thread(target=serial_communication, args=(porta, frequencia, handle_jump))
-thread.daemon = True
-thread.start()
-'''
 
 def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
 

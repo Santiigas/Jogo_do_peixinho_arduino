@@ -84,7 +84,7 @@ porta_arduino.insert(0, porta_arduino_padrão)
 
 frequencia_arduino = ttk.Combobox(janela, justify=LEFT)
 frequencia_arduino.place(width=103, height=25, x=210, y=562)
-frequencia_arduino_padrao = '0872'
+frequencia_arduino_padrao = '9600'
 frequencia_arduino.insert(0, frequencia_arduino_padrao)
 
 #Botão
