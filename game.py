@@ -141,21 +141,21 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
             #posicão dinossauro na tela de acordo com o tamando da mesma
             self.pos_y_inicial = ALTURA - 64 - 96//2
             self.rect.center = (100, ALTURA - 64)
-            self.pulo = False
+            self.esta_pulando = False  #mudei de self.pulo ---> self.esta_pulando
 
         def pular(self):
-            self.pulo = True   #Original = True | esta_pulando
+            self.esta_pulando = True   #Original = True | esta_pulando
 
 
         #velocidade da mudanca de quadros
         def update(self):
 
             #pulo do player
-            if self.pulo == True: #Original = True | esta_pulando
+            if self.esta_pulando == True: #Original = True | esta_pulando
 
                 #quando chegar em determina posicão, ele para de subir
                 if self.rect.y <= 470: #==== PAINEL DE CONTROLE ======= (padrão = 500)
-                    self.pulo = False
+                    self.esta_pulando = False
 
                 #toda vez que alterar o espaco, a posicão Y do dino ira diminuir (pular)
                 self.rect.y -= 20 #==== PAINEL DE CONTROLE ======= GRAVIDADE PRA CIMA (PRA CIMA) (padrão = 20)
@@ -197,7 +197,7 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
             if self.rect.topright[0] < 0:          #se ultrapassar a borda esquerda da tela:
                 self.rect.x = LARGURA
                 self.rect.y = randrange(50, 200, 50)              
-            self.rect.x -= dificuldade_do_jogo(dificuldade)
+            self.rect.x -= dificuldade_do_jogo(dificuldade_jogo)
 
 
     #configuracão de chão
@@ -215,7 +215,7 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
         def update(self):
             if self.rect.topright[0] < 0:      
                 self.rect.x = LARGURA  
-            self.rect.x -= dificuldade_do_jogo(dificuldade)  
+            self.rect.x -= dificuldade_do_jogo(dificuldade_jogo)  
 
 
     #configuracão de inimigos
@@ -231,7 +231,7 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
         def update(self):
             if self.rect.topright[0] < 0:          #se ultrapassar a borda esquerda da tela:
                 self.rect.x = LARGURA       
-            self.rect.x -= dificuldade_do_jogo(dificuldade)
+            self.rect.x -= dificuldade_do_jogo(dificuldade_jogo)
 
 
     todas_as_sprites = pygame.sprite.Group()
@@ -289,9 +289,12 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
         todas_as_sprites.draw(tela)
 
         #se colidir o game vai parar
+        todas_as_sprites.update()
+        '''
         if colisoes:
             pass
         else:
+            pass
             todas_as_sprites.update()
-            
+        '''
         pygame.display.flip()
