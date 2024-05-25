@@ -21,8 +21,9 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
             arduino = serial.Serial(porta, frequencia)
             while True:
                 linha = arduino.readline().decode().strip()
+                global valor_altura_maxima
                 valor_altura_maxima = int(linha)
-                if valor_altura_maxima >= forca and not esta_pulando:
+                if valor_altura_maxima >= forca and not quero_pular:
                     print(valor_altura_maxima)
                     callback(valor_altura_maxima)
         except Exception as e:
@@ -30,12 +31,13 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
 
     # Função de callback para lidar com os dados recebidos
     def handle_jump(valor_altura_maxima):
-        global esta_pulando
-        esta_pulando = True 
+        global quero_pular
+        quero_pular = True 
         return valor_altura_maxima
+    
 
     # Inicialização
-    esta_pulando = False
+    quero_pular = False
 
     # Iniciando a comunicação serial em uma thread separada
     thread = threading.Thread(target=serial_communication, args=(forca_do_paciente, porta_arduino, frequencia_arduino, handle_jump))
@@ -113,21 +115,19 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
             #posicão dinossauro na tela de acordo com o tamando da mesma
             self.pos_y_inicial = ALTURA - 64 - 96//2
             self.rect.center = (100, ALTURA - 64)
-            self.esta_pulando = False  #mudei de self.pulo ---> self.esta_pulando
+            self.pulo = False  
 
         def pular(self):
-            self.esta_pulando = True   #Original = True | esta_pulando
-
+            self.pulo = True   
 
         #velocidade da mudanca de quadros
         def update(self):
 
             #pulo do player
-            if self.esta_pulando == True: #Original = True | esta_pulando
-
+            if self.pulo == True: 
                 #quando chegar em determina posicão, ele para de subir
-                if self.rect.y <= 470: #==== PAINEL DE CONTROLE ======= (padrão = 500)
-                    self.esta_pulando = False
+                if self.rect.y <= handle_jump(valor_altura_maxima): #==== PAINEL DE CONTROLE ======= (padrão = 500)
+                    self.pulo = False
 
                 #toda vez que alterar o espaco, a posicão Y do dino ira diminuir (pular)
                 self.rect.y -= 20 #==== PAINEL DE CONTROLE ======= GRAVIDADE PRA CIMA (PRA CIMA) (padrão = 20)
@@ -240,21 +240,20 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
             if event.type == QUIT:
                 pygame.quit()
                 exit()
+        '''
+        if quero_pular: 
+            if dino.rect.y != dino.pos_y_inicial:
+                pass
+            else:
+                dino.pular()
+                quero_pular = False
+        '''
+        if quero_pular:
+            if dino.rect.y == dino.pos_y_inicial:
+                dino.pular()
+                quero_pular = False
 
-        #evento do pulo -- PARTE DE FOCO 000
-        if event.type == KEYDOWN: 
-            #se a tecla apertada for igual a "espaço"
-
-            if event.key == K_SPACE: #TROCAR POR UMA VARIAVEL QUE SEJA TRUE OU FALSE
-
-                #se o player ainda estiver no ar
-                if dino.rect.y != dino.pos_y_inicial:
-                    pass
-                else:
-                #chamando metodo de pular
-                    dino.pular()
-
-
+        dino.update()
         #verificando de houve colisão
         colisoes = pygame.sprite.spritecollide(dino, grupo_obstaculos, False, pygame.sprite.collide_mask)
 
