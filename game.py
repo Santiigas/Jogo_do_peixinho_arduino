@@ -6,43 +6,51 @@ from random import randrange
 import serial
 import threading
 
+# Variáveis globais para controle do jogo
+quero_pular = False
+altura_maxima = 0
+
+# Função para comunicação serial
+def serial_communication(forca, porta, frequencia):
+    global quero_pular, altura_maxima
+    try:
+        arduino = serial.Serial(porta, frequencia)
+        while True:
+            linha = arduino.readline().decode().strip()
+            valor_altura_maxima = int(linha)
+            if valor_altura_maxima >= forca:
+                quero_pular = True
+                altura_maxima = valor_altura_maxima
+    except Exception as e:
+        print("Erro na comunicação serial:", e)
+
+# Função para retornar se o jogador deve pular
+def get_quero_pular():
+    global quero_pular
+    if quero_pular:
+        quero_pular = False  # Reseta o estado após pegar o valor
+        return True
+    return False
+
+# Função para retornar a altura máxima
+def get_altura_maxima():
+    return altura_maxima
+
 
 def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
 
+    # Inicialização do jogo
     tempo_jogo = tempo
     dificuldade_jogo = dificuldade
     forca_do_paciente = forca
     porta_arduino = porta
     frequencia_arduino = frequencia
 
-    # Função para lidar com a comunicação serial
-    def serial_communication(forca, porta, frequencia, callback):
-        try:
-            arduino = serial.Serial(porta, frequencia)
-            while True:
-                linha = arduino.readline().decode().strip()
-                global valor_altura_maxima
-                valor_altura_maxima = int(linha)
-                if valor_altura_maxima >= forca and not quero_pular:
-                    print(valor_altura_maxima)
-                    callback(valor_altura_maxima)
-        except Exception as e:
-            print("Erro na comunicação serial:", e)
-
-    # Função de callback para lidar com os dados recebidos
-    def handle_jump(valor_altura_maxima):
-        global quero_pular
-        quero_pular = True 
-        return valor_altura_maxima
-    
-
-    # Inicialização
-    quero_pular = False
-
     # Iniciando a comunicação serial em uma thread separada
-    thread = threading.Thread(target=serial_communication, args=(forca_do_paciente, porta_arduino, frequencia_arduino, handle_jump))
+    thread = threading.Thread(target=serial_communication, args=(forca_do_paciente, porta_arduino, frequencia_arduino))
     thread.daemon = True
     thread.start()
+
 
     def dificuldade_do_jogo(dificuldade):
         if dificuldade == 'Fácil': 
@@ -126,7 +134,7 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
             #pulo do player
             if self.pulo == True: 
                 #quando chegar em determina posicão, ele para de subir
-                if self.rect.y <= handle_jump(valor_altura_maxima): #==== PAINEL DE CONTROLE ======= (padrão = 500)
+                if self.rect.y <= get_altura_maxima(): #==== PAINEL DE CONTROLE ======= (padrão = 500)
                     self.pulo = False
 
                 #toda vez que alterar o espaco, a posicão Y do dino ira diminuir (pular)
@@ -248,10 +256,9 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
                 dino.pular()
                 quero_pular = False
         '''
-        if quero_pular:
+        if get_quero_pular():
             if dino.rect.y == dino.pos_y_inicial:
                 dino.pular()
-                quero_pular = False
 
         dino.update()
         #verificando de houve colisão
