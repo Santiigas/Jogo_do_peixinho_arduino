@@ -6,7 +6,7 @@ from game import serial_communication
 lista_comorbidades = ['Comorbidade1', 'Comorbidade2', 'Comorbidade3', 'Comorbidade4']
 lista_tempos = ['1:00','1:30','2:30', '4:00', '5:00']
 lista_dificuldade = ['Fácil', 'Médio', 'Difícil']
-lista_forca = ['50', '100', '150', '200', '250', '300']
+lista_forca = ['10', '20','50', '100', '150', '200', '250', '300']
 portas_arduino = ['COM1','COM2', 'COM3','COM4','COM5','COM6']
 
 

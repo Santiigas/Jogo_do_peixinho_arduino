@@ -62,21 +62,6 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
         else:
             raise ValueError("Dificuldade inválida: deve ser 'Fácil', 'Médio' ou 'Difícil'")
 
-    '''
-    arduino = serial.Serial(porta, frequencia)
-
-    while True:
-        linha = arduino.readline().decode().strip()
-        valor_altura_maxima = int(linha) 
-        esta_pulando = False
-        
-        if valor_altura_maxima >= 200:  
-            print(valor_altura_maxima )
-            esta_pulando = True
-        if tempo == 200:
-            break
-    '''
-
     pygame.init()
     pygame.mixer.init()
 
@@ -138,12 +123,12 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
                     self.pulo = False
 
                 #toda vez que alterar o espaco, a posicão Y do dino ira diminuir (pular)
-                self.rect.y -= 20 #==== PAINEL DE CONTROLE ======= GRAVIDADE PRA CIMA (PRA CIMA) (padrão = 20)
+                self.rect.y -= 17 #==== PAINEL DE CONTROLE ======= GRAVIDADE PRA CIMA (PRA CIMA) (padrão = 20)
             else:
 
                 #se o player estiver na altuta maxima, ele vai descer (se nao estiver encostado no chão)
                 if self.rect.y < self.pos_y_inicial:
-                    self.rect.y += 10 #==== PAINEL DE CONTROLE ======= GRAVIDADE (PRA BAIXO) | (padrão = 20)
+                    self.rect.y += 8 #==== PAINEL DE CONTROLE ======= GRAVIDADE (PRA BAIXO) | (padrão = 20)
 
                 #se o dinossauro ja estiver encostado no chão
                 else:
@@ -248,14 +233,7 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
             if event.type == QUIT:
                 pygame.quit()
                 exit()
-        '''
-        if quero_pular: 
-            if dino.rect.y != dino.pos_y_inicial:
-                pass
-            else:
-                dino.pular()
-                quero_pular = False
-        '''
+
         if get_quero_pular():
             if dino.rect.y == dino.pos_y_inicial:
                 dino.pular()
@@ -268,11 +246,5 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
 
         #se colidir o game vai parar
         todas_as_sprites.update()
-        '''
-        if colisoes:
-            pass
-        else:
-            pass
-            todas_as_sprites.update()
-        '''
+
         pygame.display.flip()
