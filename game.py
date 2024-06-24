@@ -5,6 +5,7 @@ import os
 from random import randrange
 import serial
 import threading
+from matplotlib import pyplot as plt
 
 # Variáveis globais para controle do jogo
 quero_pular = False
@@ -248,3 +249,25 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
         todas_as_sprites.update()
 
         pygame.display.flip()
+
+
+def grafico_desepenho():
+    forca_max_pct = [200, 230, 583, 578, 490]
+    forca_min_pct = [100, 110, 46, 140, 33]
+    tempo_game = [1, 2, 3, 4, 5]
+
+    plt.title('Santiago Oliveira Fernandes | 21 anos | Decificencia motora no pulso esquerdo')
+
+    plt.plot(tempo_game, forca_max_pct, marker='o', label='Temp Max')
+    plt.plot(tempo_game, forca_min_pct, marker='o', label='Temp Min')
+
+    plt.xlabel('Tempo de jogo(Minutos)', color='r')
+    plt.ylabel('Força do paciente', color='r')
+
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+
+grafico_desepenho()
+
