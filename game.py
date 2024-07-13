@@ -76,7 +76,7 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
 
 
     #Cor da tela
-    BRANCO = (255, 255, 255)
+    BRANCO = (0, 155, 219)
 
 
     #configuracões da tela
