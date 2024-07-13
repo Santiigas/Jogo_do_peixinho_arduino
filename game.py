@@ -37,7 +37,6 @@ def get_quero_pular():
 def get_altura_maxima():
     return altura_maxima
 
-
 def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
 
     # Inicialização do jogo
@@ -267,7 +266,3 @@ def grafico_desepenho():
     plt.legend()
     plt.grid(True)
     plt.show()
-
-
-grafico_desepenho()
-
