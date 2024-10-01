@@ -10,6 +10,9 @@ from matplotlib import pyplot as plt
 # Variáveis globais para controle do jogo
 quero_pular = False
 altura_maxima = 0
+forca_max_pct = [0]
+forca_min_pct = [0]
+numero_de_pulos = [0]
 
 # Função para comunicação serial
 def serial_communication(forca, porta, frequencia):
@@ -22,6 +25,11 @@ def serial_communication(forca, porta, frequencia):
             if valor_altura_maxima >= forca:
                 quero_pular = True
                 altura_maxima = valor_altura_maxima
+                forca_max_pct.append(valor_altura_maxima)
+                numero_de_pulos.append(1)
+            if valor_altura_maxima <= forca:
+                forca_min_pct.append(valor_altura_maxima)
+                numero_de_pulos.append(1)
     except Exception as e:
         print("Erro na comunicação serial:", e)
 
@@ -37,7 +45,7 @@ def get_quero_pular():
 def get_altura_maxima():
     return altura_maxima
 
-def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
+def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia, nome, idade, comorbidade):
 
     # Inicialização do jogo
     tempo_jogo = tempo
@@ -232,6 +240,7 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
+                grafico_desepenho(nome, idade, comorbidade)
                 exit()
 
         if get_quero_pular():
@@ -250,15 +259,12 @@ def game_do_peixinho(tempo, dificuldade, forca, porta, frequencia):
         pygame.display.flip()
 
 
-def grafico_desepenho():
-    forca_max_pct = [200, 230, 583, 578, 490]
-    forca_min_pct = [100, 110, 46, 140, 33]
-    tempo_game = [1, 2, 3, 4, 5]
+def grafico_desepenho(nome, idade, comorbidade):
 
-    plt.title('Santiago Oliveira Fernandes | 21 anos | Decificencia motora no pulso esquerdo')
+    plt.title(f'{nome} | {idade} anos | {comorbidade}')
 
-    plt.plot(tempo_game, forca_max_pct, marker='o', label='Temp Max')
-    plt.plot(tempo_game, forca_min_pct, marker='o', label='Temp Min')
+    plt.plot(len(numero_de_pulos), forca_max_pct, marker='o', label='Força Max')
+    plt.plot(len(numero_de_pulos), forca_min_pct, marker='o', label='Força Min')
 
     plt.xlabel('Tempo de jogo(Minutos)', color='r')
     plt.ylabel('Força do paciente', color='r')

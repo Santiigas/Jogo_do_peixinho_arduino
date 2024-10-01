@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from game import game_do_peixinho
 from game import serial_communication
+from game import grafico_desepenho
 
 lista_comorbidades = ['Comorbidade1', 'Comorbidade2', 'Comorbidade3', 'Comorbidade4']
 lista_tempos = ['1:00','1:30','2:30', '4:00', '5:00']
@@ -22,8 +23,9 @@ def enviar_dados():
     porta = porta_arduino.get()
     frequencia = int(frequencia_arduino.get())
 
-    game_do_peixinho(tempo, dificuldade, forca, porta, frequencia)
+    game_do_peixinho(tempo, dificuldade, forca, porta, frequencia, nome, idade, comorbidade)
     serial_communication(forca, porta, frequencia)
+    grafico_desepenho(nome, idade, comorbidade)
 
     janela.destroy()
 
