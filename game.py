@@ -10,9 +10,8 @@ from matplotlib import pyplot as plt
 # Variáveis globais para controle do jogo
 quero_pular = False
 altura_maxima = 0
-forca_max_pct = [0]
-forca_min_pct = [0]
-numero_de_pulos = [0]
+forca_max_pct = []
+numero_de_pulos = []
 
 # Função para comunicação serial
 def serial_communication(forca, porta, frequencia):
@@ -26,9 +25,6 @@ def serial_communication(forca, porta, frequencia):
                 quero_pular = True
                 altura_maxima = valor_altura_maxima
                 forca_max_pct.append(valor_altura_maxima)
-                numero_de_pulos.append(1)
-            if valor_altura_maxima <= forca:
-                forca_min_pct.append(valor_altura_maxima)
                 numero_de_pulos.append(1)
     except Exception as e:
         print("Erro na comunicação serial:", e)
@@ -263,12 +259,11 @@ def grafico_desepenho(nome, idade, comorbidade):
 
     plt.title(f'{nome} | {idade} anos | {comorbidade}')
 
-    plt.plot(len(numero_de_pulos), forca_max_pct, marker='o', label='Força Max')
-    plt.plot(len(numero_de_pulos), forca_min_pct, marker='o', label='Força Min')
+    plt.plot(numero_de_pulos, forca_max_pct, marker='o', label='Força Max')
 
     plt.xlabel('Tempo de jogo(Minutos)', color='r')
     plt.ylabel('Força do paciente', color='r')
 
-    plt.legend()
+    plt.legend(['Força max'])
     plt.grid(True)
     plt.show()
