@@ -25,7 +25,7 @@ def serial_communication(forca, porta, frequencia):
                 quero_pular = True
                 altura_maxima = valor_altura_maxima
                 forca_max_pct.append(valor_altura_maxima)
-                numero_de_pulos.append(1)
+                numero_de_pulos.append(len(numero_de_pulos)+1)
     except Exception as e:
         print("Erro na comunicação serial:", e)
 
